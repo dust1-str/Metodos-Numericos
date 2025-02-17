@@ -1,0 +1,28 @@
+.calculate-button {
+    margin-top: 10px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.results-container {
+    display: flex;
+    background-color: #4CAF50;
+    padding: 1em;
+    width: auto;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+}

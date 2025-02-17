@@ -1,0 +1,36 @@
+.content {
+    display: flex;
+    padding: 0 5em 0 5em;
+    text-align: center;
+    background-color: #113;
+    flex: 1;
+  }
+  
+.main {
+    background-color: beige;
+    padding-top: 1em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    flex: 1;
+  }
+
+.options {
+  padding: 0 10em;
+  display: flex;
+  justify-content: space-between;
+  background-color: aqua;
+}
+
+button {
+    background-color: #113;
+    font-size: 1.5em;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+  background-color: #225;
+}

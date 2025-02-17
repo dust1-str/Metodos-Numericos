@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+}
+
+.containerd {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.navbar {
+  padding: 2rem;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+  background-color: #333;
+}
