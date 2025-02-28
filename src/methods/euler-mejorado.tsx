@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Form from "react-bootstrap/Form"
+import Form from "react-bootstrap/Form";
 import Results from "../tables/results";
 
 export default function EulerMejorado() {
     const [validated, setValidated] = useState(false);
     const [showResults, setShowResults] = useState(false);
-    const [func, setFunc] = useState('');
+    const [func, setFunc] = useState(0);
     const [x0, setX0] = useState(0);
     const [y0, setY0] = useState(0);
     const [aprox, setAprox] = useState(0);
@@ -18,16 +18,25 @@ export default function EulerMejorado() {
         event.stopPropagation();
       else 
         setShowResults(true);
-
       setValidated(true);
-      console.log(func, x0, y0, aprox, h);
+    }
+
+    const calculateAproximation = (xn:number, yn: number, h:number, f:number) => {
+      const y = yn + h * f * yn * xn;
+      const nextX = xn + h;
+      yn = yn + h * ((f * xn * yn + f * nextX * y)/2)
+      return yn
+    }
+
+    const calculateRealValue = (xn:number, h:number) => {
+      return Math.exp(-0.2 + (0.2 * Math.pow(xn + h, 2)));
     }
     
     return (
       <>
         <Form noValidate validated={validated} onSubmit={handleSubmit} className="ps-4 pe-4">
         <Form.Group className="mb-3" controlId="function">
-          <Form.Control required type="text" placeholder="Ingrese la función" value={func} onChange={(e) => setFunc(e.target.value)}/>
+          <Form.Control required type="number" placeholder="Ingrese la función" onChange={(e) => setFunc(parseFloat(e.target.value))} step={0.1}/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="x0">
           <Form.Control required type="number" placeholder="Valor inicial de x" onChange={(e) => setX0(parseFloat(e.target.value))} step={0.1}/>
@@ -47,7 +56,8 @@ export default function EulerMejorado() {
         <button type="submit">Calcular</button>
         </Form>
         <div>
-          {showResults && (<Results titles={['n', 'x(n)', 'Solución exacta', 'Error absoluto']} func={func} data={{x0, y0, aprox, h}}/>)}
+          {showResults && (<Results titles={['n', 'x(n)', 'y(n)', 'y(r)', 'Error absoluto']} calculateAproximation={calculateAproximation}
+          calculateRealValue={calculateRealValue} data={{x0, y0, aprox, h, func}}/>)}
         </div>
       </>
       
