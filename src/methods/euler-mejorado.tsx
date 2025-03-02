@@ -28,8 +28,11 @@ export default function EulerMejorado() {
       return yn
     }
 
-    const calculateRealValue = (xn:number, h:number) => {
-      return Math.exp(-0.2 + (0.2 * Math.pow(xn + h, 2)));
+    const calculateRealValue = (xn:number, h:number, first:boolean) => {
+      if (first)
+        return Math.exp(-0.2 + (0.2 * Math.pow(xn, 2)));
+      else 
+        return Math.exp(-0.2 + (0.2 * Math.pow(xn + h, 2)));
     }
     
     return (

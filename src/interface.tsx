@@ -44,7 +44,7 @@ function Interface() {
                 </div>)}
             </div>
             <div>
-              {goBack && <button onClick={() => handleGoBack()}>Volver</button>}
+              {goBack && <button className='mb-4' onClick={() => handleGoBack()}>Volver</button>}
               {method === 'EM' && <EulerMejorado />}
               {method === 'RK' && <RungeKutta />}
               {method === 'NR' && <NewtonRaphson />}
