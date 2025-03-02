@@ -32,8 +32,8 @@ export default function Results({titles, data, calculateAproximation, calculateR
           <td>{0}</td>
           <td>{data.x0.toFixed(1)}</td>
           <td>{data.y0.toFixed(1)}</td>
-          <td>{firstRealValue}</td>
-          <td>{firstError}</td>
+          <td>{firstRealValue.toFixed(5)}</td>
+          <td>{firstError.toFixed(5)}</td>
         </tr>
       {Array.from({ length: n }).map((_, index) => {
           const currentX = data.x0 + index * data.h;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Form from "react-bootstrap/Form";
 import Results from "../tables/results";
 
@@ -19,7 +19,7 @@ export default function EulerMejorado() {
       else 
         setShowResults(true);
       setValidated(true);
-    }
+    };
 
     const calculateAproximation = (xn: number, yn: number, h: number, f: string) => {
       const func = new Function('x', 'y', `return ${f}`);
@@ -29,41 +29,93 @@ export default function EulerMejorado() {
       return yn;
     };
 
-    const calculateRealValue = (xn:number, h:number, first:boolean) => {
+    const calculateRealValue = (xn: number, h: number, first: boolean) => {
       if (first)
         return Math.exp(-0.2 + (0.2 * Math.pow(xn, 2)));
       else 
         return Math.exp(-0.2 + (0.2 * Math.pow(xn + h, 2)));
-    }
-    
+    };
+
+    const memoizedData = useMemo(() => ({ x0, y0, aprox, h, func }), [x0, y0, aprox, h, func]);
+
     return (
       <>
         <Form noValidate validated={validated} onSubmit={handleSubmit} className="ps-4 pe-4">
-        <Form.Group className="mb-3" controlId="function">
-          <Form.Control required type="text" placeholder="Ingrese la función" onChange={(e) => setFunc(e.target.value)} step={0.1}/>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="x0">
-          <Form.Control required type="number" placeholder="Valor inicial de x" onChange={(e) => setX0(parseFloat(e.target.value))} step={0.1}/>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="y0">
-          <Form.Control required type="number" placeholder="Valor inicial de y" onChange={(e) => setY0(parseFloat(e.target.value))}  step={0.1}/>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="aprox">
-          <Form.Control required type="number" placeholder="Punto de aproximación" onChange={(e) => setAprox(parseFloat(e.target.value))} step={0.1}/>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="h">
-          <Form.Control required type="number" placeholder="Tamaño del paso" onChange={(e) => setH(parseFloat(e.target.value))}  step={0.01}/>
-          <Form.Control.Feedback type="invalid">
-            Use números enteros o máximo 2 decimales.
-          </Form.Control.Feedback>
-        </Form.Group>
-        <button type="submit">Calcular</button>
+                    <Form.Group className="mb-3" controlId="function">
+            <Form.Control 
+              required 
+              type="text" 
+              placeholder="Ingrese la función" 
+              onChange={(e) => {
+                setFunc(e.target.value);
+                setShowResults(false);
+              }} 
+              step={0.1}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="x0">
+            <Form.Control 
+              required 
+              type="number" 
+              placeholder="Valor inicial de x" 
+              onChange={(e) => {
+                setX0(parseFloat(e.target.value));
+                setShowResults(false);
+              }} 
+              step={0.1}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="y0">
+            <Form.Control 
+              required 
+              type="number" 
+              placeholder="Valor inicial de y" 
+              onChange={(e) => {
+                setY0(parseFloat(e.target.value));
+                setShowResults(false);
+              }} 
+              step={0.1}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="aprox">
+            <Form.Control 
+              required 
+              type="number" 
+              placeholder="Punto de aproximación" 
+              onChange={(e) => {
+                setAprox(parseFloat(e.target.value));
+                setShowResults(false);
+              }} 
+              step={0.1}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="h">
+            <Form.Control 
+              required 
+              type="number" 
+              placeholder="Tamaño del paso" 
+              onChange={(e) => {
+                setH(parseFloat(e.target.value));
+                setShowResults(false);
+              }} 
+              step={0.01}
+            />
+            <Form.Control.Feedback type="invalid">
+              Use números enteros o máximo 2 decimales.
+            </Form.Control.Feedback>
+          </Form.Group>
+          <button type="submit">Calcular</button>
         </Form>
         <div>
-          {showResults && (<Results titles={['n', 'x(n)', 'y(n)', 'y(r)', 'Error absoluto']} calculateAproximation={calculateAproximation}
-          calculateRealValue={calculateRealValue} data={{x0, y0, aprox, h, func}}/>)}
+          {showResults && (
+            <Results 
+              titles={['n', 'x(n)', 'y(n)', 'y(r)', 'Error absoluto']} 
+              calculateAproximation={calculateAproximation}
+              calculateRealValue={calculateRealValue} 
+              data={memoizedData}
+            />
+          )}
         </div>
       </>
-      
-    )
+    );
 }
