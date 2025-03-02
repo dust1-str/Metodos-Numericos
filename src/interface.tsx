@@ -34,7 +34,6 @@ function Interface() {
     <>
         <div className='content'>
           <div className='main'>
-            <p>{text}</p>
             <div>
               {methodsVisible && (
                 <div className='options'>

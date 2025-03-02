@@ -32,7 +32,7 @@ export default function NewtonRaphson() {
     let maxIter = 100;
     let iter = 0;
     const iterList: Iteration[] = [];
-
+  
     while (iter < maxIter) {
       let fx = evaluate(func, x);
       let dfx = evaluate(derivative, x);
@@ -42,11 +42,12 @@ export default function NewtonRaphson() {
         setError("Derivada es cero, el método no puede continuar");
         return;
       }
-
+  
       iterList.push({ iteration: iter + 1, x, fx, dfx });
-
+  
       let xNew = x - fx / dfx;
       if (Math.abs(xNew - x) < tol) {
+        iterList.push({ iteration: iter + 2, x: xNew, fx: 0, dfx }); // Agregar iteración extra
         setResult(xNew);
         setIterations(iterList);
         return;
@@ -54,9 +55,10 @@ export default function NewtonRaphson() {
       x = xNew;
       iter++;
     }
-
+  
     setError("No se encontró solución en el número máximo de iteraciones");
   }
+  
 
   return (
     <div className="p-4 max-w-4xl mx-auto bg-gray-100 rounded-lg shadow flex gap-8">
