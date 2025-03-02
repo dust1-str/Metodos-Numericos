@@ -2,8 +2,8 @@ import Table from 'react-bootstrap/Table';
 
 interface Props {
   titles: string[];
-  calculateAproximation: (xn: number, yn: number, h: number, f: number) => number;
-  data: {x0: number, y0: number, aprox: number, h: number, func: number};
+  calculateAproximation: (xn: number, yn: number, h: number, f: string) => number;
+  data: {x0: number, y0: number, aprox: number, h: number, func: string};
   calculateRealValue: (xn: number, h:number, first:boolean) => number;
 }
 

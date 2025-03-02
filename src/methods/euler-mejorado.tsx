@@ -5,7 +5,7 @@ import Results from "../tables/results";
 export default function EulerMejorado() {
     const [validated, setValidated] = useState(false);
     const [showResults, setShowResults] = useState(false);
-    const [func, setFunc] = useState(0);
+    const [func, setFunc] = useState("");
     const [x0, setX0] = useState(0);
     const [y0, setY0] = useState(0);
     const [aprox, setAprox] = useState(0);
@@ -21,12 +21,13 @@ export default function EulerMejorado() {
       setValidated(true);
     }
 
-    const calculateAproximation = (xn:number, yn: number, h:number, f:number) => {
-      const y = yn + h * f * yn * xn;
+    const calculateAproximation = (xn: number, yn: number, h: number, f: string) => {
+      const func = new Function('x', 'y', `return ${f}`);
+      const y = yn + h * func(xn, yn);
       const nextX = xn + h;
-      yn = yn + h * ((f * xn * yn + f * nextX * y)/2)
-      return yn
-    }
+      yn = yn + h * ((func(xn, yn) + func(nextX, y)) / 2);
+      return yn;
+    };
 
     const calculateRealValue = (xn:number, h:number, first:boolean) => {
       if (first)
@@ -39,7 +40,7 @@ export default function EulerMejorado() {
       <>
         <Form noValidate validated={validated} onSubmit={handleSubmit} className="ps-4 pe-4">
         <Form.Group className="mb-3" controlId="function">
-          <Form.Control required type="number" placeholder="Ingrese la función" onChange={(e) => setFunc(parseFloat(e.target.value))} step={0.1}/>
+          <Form.Control required type="text" placeholder="Ingrese la función" onChange={(e) => setFunc(e.target.value)} step={0.1}/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="x0">
           <Form.Control required type="number" placeholder="Valor inicial de x" onChange={(e) => setX0(parseFloat(e.target.value))} step={0.1}/>
