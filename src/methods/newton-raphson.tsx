@@ -56,7 +56,7 @@ export default function NewtonRaphson() {
       iter++;
     }
   
-    setError("No se encontró solución en el número máximo de iteraciones");
+    setError(`No se encontró solución en menos de ${{maxIter}} iteraciones`);
   }
   
 
